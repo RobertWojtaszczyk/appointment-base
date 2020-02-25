@@ -20,12 +20,12 @@ public class UserController {
     }
 
     @GetMapping(value = "/users")
-    Iterable<User> getUsers() {
+    public Iterable<User> getUsers() {
         return userRepository.findAll();
     }
 
     @PostMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE)
-    User addUser(@RequestBody User user) {
+    public User addUser(@RequestBody User user) {
         return userRepository.save(user);
     }
 }

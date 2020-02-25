@@ -21,12 +21,12 @@ public class AddressController {
     }
 
     @GetMapping(value = "/address")
-    Iterable<Address> getUsers() {
+    public Iterable<Address> getUsers() {
         return addressRepository.findAll();
     }
 
     @PostMapping(value = "/address", consumes = MediaType.APPLICATION_JSON_VALUE)
-    Address addUser(@RequestBody Address address) {
+    public Address addUser(@RequestBody Address address) {
         return addressRepository.save(address);
     }
 }

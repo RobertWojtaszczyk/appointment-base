@@ -127,4 +127,22 @@ public class TimeSlot {
         this.clientComment = clientComment;
         return this;
     }
+
+    public long getCreatedDate() {
+        return createdDate;
+    }
+
+    /*public TimeSlot setCreatedDate(long createdDate) {
+        this.createdDate = createdDate;
+        return this;
+    }*/
+
+    public long getModifiedDate() {
+        return modifiedDate;
+    }
+
+    /*public TimeSlot setModifiedDate(long modifiedDate) {
+        this.modifiedDate = modifiedDate;
+        return this;
+    }*/
 }
