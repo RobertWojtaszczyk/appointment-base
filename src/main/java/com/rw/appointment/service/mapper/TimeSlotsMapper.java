@@ -2,16 +2,19 @@ package com.rw.appointment.service.mapper;
 
 import com.rw.appointment.domain.TimeSlot;
 import com.rw.appointment.domain.TimeSlotStatus;
+import com.rw.appointment.domain.User;
+import com.rw.appointment.repository.UserRepository;
 import com.rw.appointment.service.dto.NewTimeSlotDto;
 import com.rw.appointment.service.dto.TimeSlotDto;
 import com.rw.appointment.service.util.DateTimeParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -19,14 +22,23 @@ import java.util.stream.StreamSupport;
 @Component
 public class TimeSlotsMapper {
 
+    private UserRepository userRepository;
+
+    @Autowired
+    public TimeSlotsMapper(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     public TimeSlot newTimeSlotToTimeSlot(NewTimeSlotDto newTimeSlotDto) {
         LocalDateTime localDateTime = DateTimeParser.stringToLocalDateTime(newTimeSlotDto.getTimeSlotStart());
         TimeSlotStatus timeSlotStatus = TimeSlotStatus.valueOf(newTimeSlotDto.getTimeSlotStatus().toUpperCase());
         Duration timeSlotLength = Duration.ofMinutes(newTimeSlotDto.getTimeSlotLength());
+        Optional<User> contractor = userRepository.findById(newTimeSlotDto.getContractor());
         TimeSlot timeSlot = new TimeSlot();
         timeSlot.setTimeSlotStart(localDateTime);
         timeSlot.setTimeSlotStatus(timeSlotStatus);
         timeSlot.setTimeSlotLength(timeSlotLength);
+        contractor.ifPresent(timeSlot::setContractor);
         return timeSlot;
     }
 
