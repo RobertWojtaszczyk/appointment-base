@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+      http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
+
+    <property name="uuid_type" value="uuid" dbms="postgresql"/>
+    <property name="uuid_type" value="uniqueidentifier" dbms="mssql"/>
+    <property name="uuid_type" value="RAW(16)" dbms="oracle"/>
+    <property name="uuid_type" value="UUID" dbms="h2"/>
+
+    <property name="uuid_function" value="uid.uuid_generate_v4()" dbms="postgresql"/>
+    <property name="uuid_function" value="NEWID()" dbms="mssql"/>
+    <property name="uuid_function" value="sys_guid()" dbms="oracle"/>
+    <property name="uuid_function" value="RANDOM_UUID()" dbms="h2"/>
+
+    <changeSet author="wojtaro" id="1">
+        <createTable remarks="A String"
+                     schemaName="public"
+                     tableName="user"
+                     tablespace="A String">
+            <column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="created_date" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="modified_date" type="bigint"/>
+
+            <column name="email" type="varchar(254)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="first_name" type="varchar(50)"/>
+            <column name="last_name" type="varchar(50)"/>
+            <column name="login" type="varchar(50)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="password_hash" type="varchar(60)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="id"
+                       constraintName="pk_user"
+                       tableName="user"
+                       tablespace="A String"
+                       validate="true"/>
+
+        <!--<addUniqueConstraint columnNames="login"
+                             constraintName="const_loginXXX"
+                             schemaName="public"
+                             tableName="user"
+                             tablespace="A String"
+                             validate="true"/>
+        <addUniqueConstraint columnNames="email"
+                             constraintName="const_emailXXX"
+                             schemaName="public"
+                             tableName="user"
+                             tablespace="A String"
+                             validate="true"/>-->
+
+    </changeSet>
+</databaseChangeLog>

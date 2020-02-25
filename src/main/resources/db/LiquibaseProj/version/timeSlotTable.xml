@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+      http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
+
+    <property name="uuid_type" value="uuid" dbms="postgresql"/>
+    <property name="uuid_type" value="uniqueidentifier" dbms="mssql"/>
+    <property name="uuid_type" value="RAW(16)" dbms="oracle"/>
+    <property name="uuid_type" value="UUID" dbms="h2"/>
+
+    <property name="uuid_function" value="uid.uuid_generate_v4()" dbms="postgresql"/>
+    <property name="uuid_function" value="NEWID()" dbms="mssql"/>
+    <property name="uuid_function" value="sys_guid()" dbms="oracle"/>
+    <property name="uuid_function" value="RANDOM_UUID()" dbms="h2"/>
+
+    <changeSet author="wojtaro" id="1">
+        <createTable remarks="A String"
+                     schemaName="public"
+                     tableName="time_slot"
+                     tablespace="A String">
+            <column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="client_comment" type="varchar(255)"/>
+            <column name="contractor_comment" type="varchar(255)"/>
+            <column name="created_date" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="modified_date" type="bigint"/>
+            <column name="time_slot_length" type="bigint"/>
+            <column name="time_slot_start" type="timestamp"/>
+            <column name="time_slot_status" type="int"/>
+            <column name="address_id" type="${uuid_type}"/>
+            <column name="client_id" type="${uuid_type}"/>
+            <column name="contractor_id" type="${uuid_type}"/>
+        </createTable>
+
+        <addPrimaryKey columnNames="id"
+                       constraintName="pk_time_slot"
+                       tableName="time_slot"
+                       tablespace="A String"
+                       validate="true"/>
+
+        <addForeignKeyConstraint baseColumnNames="client_id"
+                                 baseTableName="time_slot"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_client_id"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"
+                                 validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="contractor_id"
+                                 baseTableName="time_slot"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_contractor_id"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"
+                                 validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="address_id"
+                                 baseTableName="time_slot"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_address_id"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="address"
+                                 validate="true"/>
+
+    </changeSet>
+</databaseChangeLog>
