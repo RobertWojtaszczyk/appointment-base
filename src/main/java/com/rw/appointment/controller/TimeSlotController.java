@@ -1,6 +1,5 @@
 package com.rw.appointment.controller;
 
-import com.rw.appointment.domain.TimeSlot;
 import com.rw.appointment.service.TimeSlotService;
 import com.rw.appointment.service.dto.NewTimeSlotDto;
 import com.rw.appointment.service.dto.TimeSlotDto;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,7 +24,7 @@ public class TimeSlotController {
     }
 
     @PostMapping(value = "/timeSlots", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public TimeSlotDto createTimeSlots(@RequestBody NewTimeSlotDto newTimeSlotDto) {
+    public TimeSlotDto createTimeSlots(@RequestBody @Valid NewTimeSlotDto newTimeSlotDto) {
         return timeSlotService.createNewTimeSlot(newTimeSlotDto);
     }
 

@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -32,7 +33,8 @@ public class TimeSlotsMapper {
         LocalDateTime localDateTime = DateTimeParser.stringToLocalDateTime(newTimeSlotDto.getTimeSlotStart());
         TimeSlotStatus timeSlotStatus = TimeSlotStatus.valueOf(newTimeSlotDto.getTimeSlotStatus().toUpperCase());
         Duration timeSlotLength = Duration.ofMinutes(newTimeSlotDto.getTimeSlotLength());
-        User contractor = userRepository.findById(newTimeSlotDto.getContractor()).orElseThrow(() -> new IllegalArgumentException("User not found: " + newTimeSlotDto.getContractor()));
+        User contractor = userRepository.findById(UUID.fromString(newTimeSlotDto.getContractor()))
+                .orElseThrow(() -> new IllegalArgumentException("User not found: " + newTimeSlotDto.getContractor()));
         TimeSlot timeSlot = new TimeSlot();
         timeSlot.setTimeSlotStart(localDateTime);
         timeSlot.setTimeSlotStatus(timeSlotStatus);
