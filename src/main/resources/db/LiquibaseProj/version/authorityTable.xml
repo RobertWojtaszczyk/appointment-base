@@ -9,7 +9,7 @@
     <changeSet author="wojtaro" id="1">
         <createTable remarks="A String"
                      schemaName="public"
-                     tableName="role"
+                     tableName="authority"
                      tablespace="A String">
             <column name="name" type="varchar(50)">
                 <constraints nullable="false" unique="true" />
@@ -19,8 +19,19 @@
 
         <addPrimaryKey columnNames="name"
                        constraintName="pk_role"
-                       tableName="role"
+                       tableName="authority"
                        tablespace="A String"
                        validate="true"/>
+
+        <insert tableName="authority">
+            <column name="name" value="ROLE_USER"/>
+        </insert>
+        <insert tableName="authority">
+            <column name="name" value="ROLE_ADMIN"/>
+        </insert>
+        <insert tableName="authority">
+            <column name="name" value="ROLE_PROVIDER"/>
+        </insert>
+
     </changeSet>
 </databaseChangeLog>

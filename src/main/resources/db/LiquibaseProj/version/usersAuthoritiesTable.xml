@@ -20,37 +20,37 @@
     <changeSet author="wojtaro" id="1">
         <createTable remarks="A String"
                      schemaName="public"
-                     tableName="users_roles"
+                     tableName="users_authorities"
                      tablespace="A String">
             <column name="user_id" type="${uuid_type}" >
                 <constraints nullable="false" />
             </column>
-            <column name="role_name" type="varchar(50)">
+            <column name="authority_name" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="user_id, role_name"
-                       constraintName="pk_user_roles"
-                       tableName="users_roles"
+        <addPrimaryKey columnNames="user_id, authority_name"
+                       constraintName="pk_user_authorities"
+                       tableName="users_authorities"
                        tablespace="A String"
                        validate="true"/>
 
         <addForeignKeyConstraint baseColumnNames="user_id"
-                                 baseTableName="users_roles"
+                                 baseTableName="users_authorities"
                                  baseTableSchemaName="public"
                                  constraintName="fk_user_id"
                                  onUpdate="RESTRICT"
                                  referencedColumnNames="id"
                                  referencedTableName="user"
                                  validate="true"/>
-        <addForeignKeyConstraint baseColumnNames="role_name"
-                                 baseTableName="users_roles"
+        <addForeignKeyConstraint baseColumnNames="authority_name"
+                                 baseTableName="users_authorities"
                                  baseTableSchemaName="public"
-                                 constraintName="fk_role_name"
+                                 constraintName="fk_users_authority_name"
                                  onUpdate="RESTRICT"
                                  referencedColumnNames="name"
-                                 referencedTableName="role"
+                                 referencedTableName="authority"
                                  validate="true"/>
     </changeSet>
 </databaseChangeLog>

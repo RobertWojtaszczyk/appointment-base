@@ -13,6 +13,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.time.Instant;
 import java.util.*;
 
 @Entity
@@ -29,7 +30,7 @@ public class User {
     @Column(length = 50, unique = true, nullable = false)
     private String login;
 
-    //@JsonIgnore
+    @JsonIgnore
     @NotNull
     @Size(min = 6, max = 60)
     @Column(name = "password_hash", length = 60, nullable = false)
@@ -48,6 +49,27 @@ public class User {
     @Column(length = 254, unique = true)
     private String email;
 
+    @NotNull
+    @Column(nullable = false)
+    private boolean activated = false;
+
+    @Size(max = 256)
+    @Column(name = "image_url", length = 256)
+    private String imageUrl;
+
+    @Size(max = 20)
+    @Column(name = "activation_key", length = 20)
+    @JsonIgnore
+    private String activationKey;
+
+    @Size(max = 20)
+    @Column(name = "reset_key", length = 20)
+    @JsonIgnore
+    private String resetKey;
+
+    @Column(name = "reset_date")
+    private Instant resetDate = null;
+
     @JsonManagedReference // prevent infinite loop while fetching users
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
@@ -56,11 +78,11 @@ public class User {
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-            name = "users_roles",
+            name = "users_authorities",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_name", referencedColumnName = "name")})
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
     @BatchSize(size = 20)
-    private Set<Role> roles = new HashSet<>();
+    private Set<Authority> authorities = new HashSet<>();
 
     public UUID getId() {
         return id;
@@ -116,6 +138,51 @@ public class User {
         return this;
     }
 
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public User setActivated(boolean activated) {
+        this.activated = activated;
+        return this;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public User setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
+
+    public String getActivationKey() {
+        return activationKey;
+    }
+
+    public User setActivationKey(String activationKey) {
+        this.activationKey = activationKey;
+        return this;
+    }
+
+    public String getResetKey() {
+        return resetKey;
+    }
+
+    public User setResetKey(String resetKey) {
+        this.resetKey = resetKey;
+        return this;
+    }
+
+    public Instant getResetDate() {
+        return resetDate;
+    }
+
+    public User setResetDate(Instant resetDate) {
+        this.resetDate = resetDate;
+        return this;
+    }
+
     public List<Address> getAddress() {
         return address;
     }
@@ -125,12 +192,12 @@ public class User {
         return this;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Set<Authority> getAuthorities() {
+        return authorities;
     }
 
-    public User setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public User setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
         return this;
     }
 
@@ -142,6 +209,14 @@ public class User {
     @LastModifiedDate
     private long modifiedDate;
 
+    public long getCreatedDate() {
+        return createdDate;
+    }
+
+    public long getModifiedDate() {
+        return modifiedDate;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -149,7 +224,7 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", address=" + address +
-                ", roles=" + roles +
+                ", roles=" + authorities +
                 '}';
     }
 
@@ -162,11 +237,11 @@ public class User {
                 firstName.equals(user.firstName) &&
                 lastName.equals(user.lastName) &&
                 address.equals(user.address) &&
-                roles.equals(user.roles);
+                authorities.equals(user.authorities);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, address, roles);
+        return Objects.hash(id, firstName, lastName, address, authorities);
     }
 }

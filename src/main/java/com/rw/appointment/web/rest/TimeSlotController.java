@@ -1,4 +1,4 @@
-package com.rw.appointment.controller;
+package com.rw.appointment.web.rest;
 
 import com.rw.appointment.service.TimeSlotService;
 import com.rw.appointment.service.dto.NewTimeSlotDto;

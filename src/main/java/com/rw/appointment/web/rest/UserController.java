@@ -1,6 +1,8 @@
-package com.rw.appointment.controller;
+package com.rw.appointment.web.rest;
 
 import com.rw.appointment.domain.User;
+import com.rw.appointment.service.dto.UserDto;
+import com.rw.appointment.service.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +15,12 @@ import com.rw.appointment.repository.UserRepository;
 public class UserController {
 
     private UserRepository userRepository;
+    private UserMapper userMapper;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     @GetMapping(value = "/users")
@@ -25,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public User addUser(@RequestBody User user) {
-        return userRepository.save(user);
+    public UserDto addUser(@RequestBody UserDto userDto) {
+        return userMapper.userToUserDto(userRepository.save(userMapper.userDtoToUser(userDto)));
     }
 }

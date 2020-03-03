@@ -1,4 +1,4 @@
-package com.rw.appointment.controller;
+package com.rw.appointment.web.rest;
 
 import com.rw.appointment.domain.Address;
 import com.rw.appointment.domain.User;

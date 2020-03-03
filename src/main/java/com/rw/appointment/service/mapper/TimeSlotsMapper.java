@@ -33,7 +33,8 @@ public class TimeSlotsMapper {
         LocalDateTime localDateTime = DateTimeParser.stringToLocalDateTime(newTimeSlotDto.getTimeSlotStart());
         TimeSlotStatus timeSlotStatus = TimeSlotStatus.valueOf(newTimeSlotDto.getTimeSlotStatus().toUpperCase());
         Duration timeSlotLength = Duration.ofMinutes(newTimeSlotDto.getTimeSlotLength());
-        User contractor = userRepository.findById(UUID.fromString(newTimeSlotDto.getContractor()))
+        UUID contractorUuid = UUID.fromString(newTimeSlotDto.getContractor());
+        User contractor = userRepository.findById(contractorUuid)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + newTimeSlotDto.getContractor()));
         TimeSlot timeSlot = new TimeSlot();
         timeSlot.setTimeSlotStart(localDateTime);

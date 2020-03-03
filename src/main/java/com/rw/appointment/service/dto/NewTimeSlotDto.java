@@ -1,12 +1,10 @@
 package com.rw.appointment.service.dto;
 
-import com.rw.appointment.controller.validation.ValidUuid;
-import com.rw.appointment.domain.User;
+import com.rw.appointment.web.rest.validation.ValidUuid;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.UUID;
 
 public class NewTimeSlotDto {
 
@@ -20,7 +18,7 @@ public class NewTimeSlotDto {
     @Size(min=6, max = 12, message = "Zła długość pola timeSlotStatus")
     private String timeSlotStatus;
     @NotNull(message = "Pole contractor nie może być puste")
-    @ValidUuid
+    @ValidUuid(message = "Nieprawidłowa wartość pola contractor")
     private String contractor;
 
     public NewTimeSlotDto() {

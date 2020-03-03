@@ -1,4 +1,4 @@
-package com.rw.appointment.controller.validation;
+package com.rw.appointment.web.rest.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
