@@ -11,18 +11,18 @@ public class NewTimeSlotDto {
     @NotNull(message = "Pole timeSlotStart nie może być puste")
     @Size(min=19, max = 19, message = "Zła długość pola timeSlotStart")
     private String timeSlotStart;
+
     @NotNull(message = "Pole timeSlotLength nie może być puste")
     @Digits(integer=3, fraction=0, message = "Zła wartość pola timeSlotLength")
     private long timeSlotLength;
+
     @NotNull(message = "Pole timeSlotLength nie może być puste")
     @Size(min=6, max = 12, message = "Zła długość pola timeSlotStatus")
     private String timeSlotStatus;
+
     @NotNull(message = "Pole contractor nie może być puste")
     @ValidUuid(message = "Nieprawidłowa wartość pola contractor")
     private String contractor;
-
-    public NewTimeSlotDto() {
-    }
 
     public String getTimeSlotStart() {
         return timeSlotStart;

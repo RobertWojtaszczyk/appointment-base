@@ -1,5 +1,6 @@
 package com.rw.appointment.service.mapper;
 
+import com.rw.appointment.domain.Address;
 import com.rw.appointment.domain.Authority;
 import com.rw.appointment.domain.User;
 import com.rw.appointment.repository.AuthorityRepository;
@@ -51,9 +52,9 @@ public class UserMapper {
                     .collect(Collectors.toSet());
             user.setAuthorities(authorities);
         }
-
-
-
+        if (userDto.getAddress() != null) {
+            user.setAddress(userDto.getAddress());
+        }
         return user;
     }
 
@@ -61,7 +62,7 @@ public class UserMapper {
         return new UserDto(user);
     }
 
-    public List<UserDto> usersToUserDtos(Iterable<User> users) {
+    public List<UserDto> usersToUsersDto(Iterable<User> users) {
         return StreamSupport.stream(users.spliterator(), false)
                 .map(UserDto::new)
                 .collect(Collectors.toList());

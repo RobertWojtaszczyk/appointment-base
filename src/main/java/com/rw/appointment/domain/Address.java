@@ -6,6 +6,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -16,10 +18,27 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(length = 100)
     private String city;
+
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(length = 100)
     private String street;
+
+    @NotNull
+    @Size(min = 1, max = 30)
+    @Column(length = 30)
     private String propertyNumber;
+
+    @NotNull
+    @Size(min = 6, max = 6)
+    @Column(length = 6)
     private String postCode;
+
     @JsonBackReference // prevent infinite loop while fetching users
     @ManyToOne
     @JoinColumn(name = "user_id")

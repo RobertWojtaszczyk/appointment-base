@@ -1,35 +1,40 @@
 package com.rw.appointment.web.rest;
 
-import com.rw.appointment.domain.User;
 import com.rw.appointment.service.dto.UserDto;
-import com.rw.appointment.service.mapper.UserMapper;
+import com.rw.appointment.service.UserService;
+import com.rw.appointment.web.rest.validation.ValidUuid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import com.rw.appointment.repository.UserRepository;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
+@RequestMapping("/api")
+@Validated // @PathVariable Validation + ClientWebConfigJava
 public class UserController {
 
-    private UserRepository userRepository;
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @GetMapping(value = "/users")
-    public Iterable<User> getUsers() {
-        return userRepository.findAll();
+    @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<UserDto> getUsers() {
+        return userService.findAll();
     }
 
-    @PostMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public UserDto addUser(@RequestBody UserDto userDto) {
-        return userMapper.userToUserDto(userRepository.save(userMapper.userDtoToUser(userDto)));
+    @GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserDto findOne(@PathVariable(value = "id") @ValidUuid String uuid) {
+        return userService.findById(uuid);
+    }
+
+    @PostMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserDto addUser(@RequestBody @Valid UserDto userDto) {
+        return userService.createUser(userDto);
     }
 }

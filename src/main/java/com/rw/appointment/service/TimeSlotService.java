@@ -1,6 +1,6 @@
 package com.rw.appointment.service;
 
-import com.rw.appointment.domain.TimeSlot;
+import com.rw.appointment.domain.errors.TimeSlotResourceException;
 import com.rw.appointment.repository.TimeSlotRepository;
 import com.rw.appointment.service.dto.NewTimeSlotDto;
 import com.rw.appointment.service.dto.TimeSlotDto;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class TimeSlotService {
@@ -32,5 +33,12 @@ public class TimeSlotService {
 
     public List<TimeSlotDto> findAll() {
         return timeSlotsMapper.timeSlotsToTimeSlotsDto(timeSlotRepository.findAll());
+    }
+
+    public TimeSlotDto findOne(String id) {
+        UUID uuid = UUID.fromString(id);
+        return timeSlotRepository.findById(uuid)
+                .map(timeSlotsMapper::timeSlotToTimeSlotDto)
+                .orElseThrow(()-> new TimeSlotResourceException("TimeSlot not found: " + uuid));
     }
 }

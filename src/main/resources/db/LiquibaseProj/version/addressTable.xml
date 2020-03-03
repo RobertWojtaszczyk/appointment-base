@@ -25,14 +25,14 @@
             <column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
                 <constraints nullable="false" unique="true" />
             </column>
-            <column name="city" type="varchar(255)"/>
+            <column name="city" type="varchar(100)"/>
             <column name="created_date" type="bigint">
                 <constraints nullable="false" />
             </column>
             <column name="modified_date" type="bigint"/>
-            <column name="post_code" type="varchar(255)"/>
-            <column name="property_number" type="varchar(255)"/>
-            <column name="street" type="varchar(255)"/>
+            <column name="post_code" type="varchar(6)"/>
+            <column name="property_number" type="varchar(30)"/>
+            <column name="street" type="varchar(100)"/>
             <column name="user_id" type="${uuid_type}"/>
         </createTable>
 

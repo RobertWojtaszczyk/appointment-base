@@ -9,7 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -38,7 +38,7 @@ public class UserDto {
 
     private boolean activated = false;
 
-    private Set<Address> address;
+    private List<Address> address;
 
     private String createdBy;
 
@@ -66,6 +66,7 @@ public class UserDto {
         this.authorities = user.getAuthorities().stream()
                 .map(Authority::getName)
                 .collect(Collectors.toSet());
+        this.address = user.getAddress();
     }
 
     public UUID getId() {
@@ -131,11 +132,11 @@ public class UserDto {
         return this;
     }
 
-    public Set<Address> getAddress() {
+    public List<Address> getAddress() {
         return address;
     }
 
-    public UserDto setAddress(Set<Address> address) {
+    public UserDto setAddress(List<Address> address) {
         this.address = address;
         return this;
     }
@@ -183,5 +184,24 @@ public class UserDto {
     public UserDto setLastModifiedDate(long lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", activated=" + activated +
+                ", address=" + address +
+                ", createdBy='" + createdBy + '\'' +
+                ", createdDate=" + createdDate +
+                ", lastModifiedBy='" + lastModifiedBy + '\'' +
+                ", lastModifiedDate=" + lastModifiedDate +
+                ", authorities=" + authorities +
+                '}';
     }
 }
