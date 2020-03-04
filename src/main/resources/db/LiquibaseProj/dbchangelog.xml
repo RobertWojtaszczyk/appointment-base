@@ -10,5 +10,6 @@
     <include file="version/addressTable.xml" relativeToChangelogFile="true"/>
     <include file="version/usersAuthoritiesTable.xml" relativeToChangelogFile="true"/>
     <include file="version/timeSlotTable.xml" relativeToChangelogFile="true"/>
+    <include file="version/initialData.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

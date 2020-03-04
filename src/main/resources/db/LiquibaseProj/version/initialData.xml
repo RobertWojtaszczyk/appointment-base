@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+      http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
+
+    <changeSet author="wojtaro" id="1">
+        <insert tableName="user">
+            <column name="id" value="01d8dc3d-151d-49fe-9f5b-6701d3c0c449"/>
+            <column name="created_date" value="1"/>
+            <column name="modified_date" value="1"/>
+            <column name="email" value="robertw1@gmail.com"/>
+            <column name="activated" value="true"/>
+            <column name="first_name" value="Robert"/>
+            <column name="last_name" value="Wojtaszczyk"/>
+            <column name="login" value="wojtaro"/>
+            <column name="password_hash" value="$2a$10$cG2dmxe.bNDTRd8OjMNHj.ensII6xVCYnqg2q24Sg/DZCe.LaV/LG"/>
+        </insert>
+
+        <insert tableName="users_authorities">
+            <column name="user_id" value="01d8dc3d-151d-49fe-9f5b-6701d3c0c449"/>
+            <column name="authority_name" value="ROLE_PROVIDER"/>
+        </insert>
+        <insert tableName="users_authorities">
+            <column name="user_id" value="01d8dc3d-151d-49fe-9f5b-6701d3c0c449"/>
+            <column name="authority_name" value="ROLE_ADMIN"/>
+        </insert>
+
+        <insert tableName="address">
+            <column name="id" value="db267a82-0249-4f1d-b61b-f2d396a3f6ec"/>
+            <column name="created_date" value="1"/>
+            <column name="modified_date" value="1"/>
+            <column name="city" value="Katowice"/>
+            <column name="post_code" value="40-600"/>
+            <column name="property_number" value="123"/>
+            <column name="street" value="Stawowa"/>
+            <column name="user_id" value="01d8dc3d-151d-49fe-9f5b-6701d3c0c449"/>
+        </insert>
+
+        <insert tableName="time_slot">
+            <column name="created_date" value="1583328662581"/>
+            <column name="modified_date" value="1583328662581"/>
+            <column name="time_slot_length" value="7200000000000"/>
+            <column name="time_slot_start" value="2020-02-25 10:00:00"/>
+            <column name="time_slot_status" value="0"/>
+            <column name="contractor_id" value="01d8dc3d-151d-49fe-9f5b-6701d3c0c449"/>
+        </insert>
+
+        <insert tableName="time_slot">
+            <column name="created_date" value="1583328662581"/>
+            <column name="modified_date" value="1583328662581"/>
+            <column name="time_slot_length" value="7200000000000"/>
+            <column name="time_slot_start" value="2020-02-25 12:00:00"/>
+            <column name="time_slot_status" value="0"/>
+            <column name="contractor_id" value="01d8dc3d-151d-49fe-9f5b-6701d3c0c449"/>
+        </insert>
+
+        <insert tableName="time_slot">
+            <column name="created_date" value="1583328662581"/>
+            <column name="modified_date" value="1583328662581"/>
+            <column name="time_slot_length" value="7200000000000"/>
+            <column name="time_slot_start" value="2020-02-25 14:00:00"/>
+            <column name="time_slot_status" value="0"/>
+            <column name="contractor_id" value="01d8dc3d-151d-49fe-9f5b-6701d3c0c449"/>
+        </insert>
+
+        <insert tableName="time_slot">
+            <column name="created_date" value="1583328662581"/>
+            <column name="modified_date" value="1583328662581"/>
+            <column name="time_slot_length" value="7200000000000"/>
+            <column name="time_slot_start" value="2020-02-25 16:00:00"/>
+            <column name="time_slot_status" value="0"/>
+            <column name="contractor_id" value="01d8dc3d-151d-49fe-9f5b-6701d3c0c449"/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>
