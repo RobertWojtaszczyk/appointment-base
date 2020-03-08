@@ -15,6 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @Validated // @PathVariable Validation + ClientWebConfigJava
+//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class TimeSlotController {
 
     private TimeSlotService timeSlotService;
