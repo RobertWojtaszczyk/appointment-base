@@ -31,7 +31,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="modified_date" type="bigint"/>
-            <column name="time_slot_length" type="bigint"/>
+            <column name="time_slot_end" type="timestamp"/>
             <column name="time_slot_start" type="timestamp"/>
             <column name="time_slot_status" type="int"/>
             <column name="address_id" type="${uuid_type}"/>

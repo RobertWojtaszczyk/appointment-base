@@ -2,21 +2,20 @@ package com.rw.appointment.service.dto;
 
 import com.rw.appointment.web.rest.validation.ValidUuid;
 
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class NewTimeSlotDto {
 
     @NotNull(message = "Pole timeSlotStart nie może być puste")
-    @Size(min=19, max = 19, message = "Zła długość pola timeSlotStart")
+    @Size(min=16, max = 19, message = "Zła długość pola timeSlotStart")
     private String timeSlotStart;
 
     @NotNull(message = "Pole timeSlotLength nie może być puste")
-    @Digits(integer=3, fraction=0, message = "Zła wartość pola timeSlotLength")
-    private long timeSlotLength;
+    @Size(min=16, max = 19, message = "Zła długość pola timeSlotStart")
+    private String timeSlotEnd;
 
-    @NotNull(message = "Pole timeSlotLength nie może być puste")
+    @NotNull(message = "Pole timeSlotStatus nie może być puste")
     @Size(min=6, max = 12, message = "Zła długość pola timeSlotStatus")
     private String timeSlotStatus;
 
@@ -33,12 +32,12 @@ public class NewTimeSlotDto {
         return this;
     }
 
-    public long getTimeSlotLength() {
-        return timeSlotLength;
+    public String getTimeSlotEnd() {
+        return timeSlotEnd;
     }
 
-    public NewTimeSlotDto setTimeSlotLength(long timeSlotLength) {
-        this.timeSlotLength = timeSlotLength;
+    public NewTimeSlotDto setTimeSlotEnd(String timeSlotEnd) {
+        this.timeSlotEnd = timeSlotEnd;
         return this;
     }
 
@@ -64,7 +63,7 @@ public class NewTimeSlotDto {
     public String toString() {
         return "NewTimeSlotDto{" +
                 "timeSlotStart='" + timeSlotStart + '\'' +
-                ", timeSlotLength=" + timeSlotLength +
+                ", timeSlotEnd=" + timeSlotEnd +
                 ", timeSlotStatus='" + timeSlotStatus + '\'' +
                 ", contractor=" + contractor +
                 '}';

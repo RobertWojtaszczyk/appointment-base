@@ -1,6 +1,5 @@
 package com.rw.appointment.service.mapper;
 
-import com.rw.appointment.domain.Address;
 import com.rw.appointment.domain.Authority;
 import com.rw.appointment.domain.User;
 import com.rw.appointment.repository.AuthorityRepository;

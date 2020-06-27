@@ -5,7 +5,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -19,7 +18,7 @@ public class TimeSlot {
 
     private LocalDateTime timeSlotStart;
 
-    private Duration timeSlotLength;
+    private LocalDateTime timeSlotEnd;
 
     private TimeSlotStatus timeSlotStatus;
 
@@ -65,12 +64,12 @@ public class TimeSlot {
         return this;
     }
 
-    public Duration getTimeSlotLength() {
-        return timeSlotLength;
+    public LocalDateTime getTimeSlotEnd() {
+        return timeSlotEnd;
     }
 
-    public TimeSlot setTimeSlotLength(Duration timeSlotLength) {
-        this.timeSlotLength = timeSlotLength;
+    public TimeSlot setTimeSlotEnd(LocalDateTime timeSlotEnd) {
+        this.timeSlotEnd = timeSlotEnd;
         return this;
     }
 
@@ -145,4 +144,16 @@ public class TimeSlot {
         this.modifiedDate = modifiedDate;
         return this;
     }*/
+
+    @Override
+    public String toString() {
+        return "TimeSlot{" +
+                "id=" + id +
+                ", timeSlotStart=" + timeSlotStart +
+                ", timeSlotLength=" + timeSlotEnd +
+                ", timeSlotStatus=" + timeSlotStatus +
+                ", createdDate=" + createdDate +
+                ", modifiedDate=" + modifiedDate +
+                '}';
+    }
 }

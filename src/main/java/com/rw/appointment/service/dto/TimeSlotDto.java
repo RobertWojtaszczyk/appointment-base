@@ -25,6 +25,7 @@ public class TimeSlotDto {
         private UUID id;
         private String timeSlotStart;
         private String timeSlotEnd;
+        private int timeSlotLength;
         private String timeSlotStatus;
         private User contractor;
         private User client;
@@ -111,5 +112,63 @@ public class TimeSlotDto {
             timeSlotDto.modifiedDate = this.modifiedDate;
             return timeSlotDto;
         }
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getTimeSlotStart() {
+        return timeSlotStart;
+    }
+
+    public String getTimeSlotEnd() {
+        return timeSlotEnd;
+    }
+
+    public String getTimeSlotStatus() {
+        return timeSlotStatus;
+    }
+
+    public User getContractor() {
+        return contractor;
+    }
+
+    public User getClient() {
+        return client;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public String getContractorComment() {
+        return contractorComment;
+    }
+
+    public String getClientComment() {
+        return clientComment;
+    }
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public String getModifiedDate() {
+        return modifiedDate;
+    }
+
+    @Override
+    public String toString() {
+        return "TimeSlotDto{" +
+                "id=" + id +
+                ", timeSlotStart='" + timeSlotStart + '\'' +
+                ", timeSlotEnd='" + timeSlotEnd + '\'' +
+                ", timeSlotStatus='" + timeSlotStatus + '\'' +
+                ", contractorComment='" + contractorComment + '\'' +
+                ", clientComment='" + clientComment + '\'' +
+                ", createdDate='" + createdDate + '\'' +
+                ", modifiedDate='" + modifiedDate + '\'' +
+                '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.rw.appointment.service.mapper;
 
+import com.rw.appointment.domain.Address;
 import com.rw.appointment.domain.TimeSlot;
 import com.rw.appointment.domain.TimeSlotStatus;
 import com.rw.appointment.domain.User;
@@ -7,10 +8,11 @@ import com.rw.appointment.repository.UserRepository;
 import com.rw.appointment.service.dto.NewTimeSlotDto;
 import com.rw.appointment.service.dto.TimeSlotDto;
 import com.rw.appointment.service.util.DateTimeParser;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,24 +24,55 @@ import java.util.stream.StreamSupport;
 @Component
 public class TimeSlotsMapper {
 
+    private static Logger logger = LoggerFactory.getLogger(TimeSlotsMapper.class);
+
     private UserRepository userRepository;
 
-    @Autowired
     public TimeSlotsMapper(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    public TimeSlot timeSlotDtoToTimeSlot(TimeSlotDto timeSlotDto) {
+        logger.info("Mapping dto: {}", timeSlotDto);
+        LocalDateTime timeSlotStart = null;
+        LocalDateTime timeSlotEnd = null;
+        if (timeSlotDto.getTimeSlotStart() != null) {
+            timeSlotStart = DateTimeParser.stringToLocalDateTime(timeSlotDto.getTimeSlotStart());
+        }
+        if (timeSlotDto.getTimeSlotEnd() != null) {
+            timeSlotEnd = DateTimeParser.stringToLocalDateTime(timeSlotDto.getTimeSlotEnd());
+        }
+        TimeSlotStatus timeSlotStatus = TimeSlotStatus.valueOf(timeSlotDto.getTimeSlotStatus().toUpperCase());
+        //UUID contractorUuid = UUID.fromString(timeSlotDto.getContractor());
+        User contractor = timeSlotDto.getContractor();
+        User client = timeSlotDto.getClient();
+        Address address = timeSlotDto.getAddress();
+        String contractorComment = timeSlotDto.getContractorComment();
+        String clientComment = timeSlotDto.getClientComment();
+
+        TimeSlot timeSlot = new TimeSlot();
+        timeSlot.setTimeSlotStart(timeSlotStart);
+        timeSlot.setTimeSlotEnd(timeSlotEnd);
+        timeSlot.setTimeSlotStatus(timeSlotStatus);
+        timeSlot.setContractor(contractor);
+        timeSlot.setClient(client);
+        timeSlot.setAddress(address);
+        timeSlot.setContractorComment(contractorComment);
+        timeSlot.setClientComment(clientComment);
+        return timeSlot;
+    }
+
     public TimeSlot newTimeSlotToTimeSlot(NewTimeSlotDto newTimeSlotDto) {
-        LocalDateTime localDateTime = DateTimeParser.stringToLocalDateTime(newTimeSlotDto.getTimeSlotStart());
+        LocalDateTime timeSlotStart = DateTimeParser.stringToLocalDateTime(newTimeSlotDto.getTimeSlotStart());
+        LocalDateTime timeSlotEnd = DateTimeParser.stringToLocalDateTime(newTimeSlotDto.getTimeSlotEnd());
         TimeSlotStatus timeSlotStatus = TimeSlotStatus.valueOf(newTimeSlotDto.getTimeSlotStatus().toUpperCase());
-        Duration timeSlotLength = Duration.ofMinutes(newTimeSlotDto.getTimeSlotLength());
         UUID contractorUuid = UUID.fromString(newTimeSlotDto.getContractor());
         User contractor = userRepository.findById(contractorUuid)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + newTimeSlotDto.getContractor()));
         TimeSlot timeSlot = new TimeSlot();
-        timeSlot.setTimeSlotStart(localDateTime);
+        timeSlot.setTimeSlotStart(timeSlotStart);
+        timeSlot.setTimeSlotEnd(timeSlotEnd);
         timeSlot.setTimeSlotStatus(timeSlotStatus);
-        timeSlot.setTimeSlotLength(timeSlotLength);
         timeSlot.setContractor(contractor);
         //contractor.ifPresent(timeSlot::setContractor);  //
         return timeSlot;
@@ -49,7 +82,7 @@ public class TimeSlotsMapper {
         return TimeSlotDto.TimeSlotDtoBuilder.aTimeSlotDto()
                 .withId(timeSlot.getId())
                 .withTimeSlotStart(timeSlot.getTimeSlotStart().toString())
-                .withTimeSlotEnd(timeSlot.getTimeSlotStart().plusSeconds(timeSlot.getTimeSlotLength().getSeconds()).toString())
+                .withTimeSlotEnd(timeSlot.getTimeSlotEnd().toString())
                 .withTimeSlotStatus(timeSlot.getTimeSlotStatus().toString())
                 .withContractor(timeSlot.getContractor())
                 .withClient(timeSlot.getClient())
@@ -65,5 +98,9 @@ public class TimeSlotsMapper {
         return StreamSupport.stream(timeSlots.spliterator(), false)
                 .map(this::timeSlotToTimeSlotDto)
                 .collect(Collectors.toList());
+    }
+
+    public Page<TimeSlotDto> timeSlotsToTimeSlotsDtoPage(Page<TimeSlot> timeSlots) {
+        return timeSlots.map(this::timeSlotToTimeSlotDto);
     }
 }

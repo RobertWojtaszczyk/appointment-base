@@ -1,6 +1,5 @@
 package com.rw.appointment.service;
 
-import com.rw.appointment.domain.Address;
 import com.rw.appointment.domain.errors.AddressResourceException;
 import com.rw.appointment.repository.AddressRepository;
 import com.rw.appointment.service.dto.AddressDto;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.StreamSupport;
 
 @Component
 public class AddressService {
